@@ -13,15 +13,9 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_CONNECTION, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-})
-
+});
 
 const notesRoute = require('./routes/notes');
-
-
-app.get('/', (req, res)=>{
-  res.send('Oi')
-})
 
 app.use(notesRoute);
 
