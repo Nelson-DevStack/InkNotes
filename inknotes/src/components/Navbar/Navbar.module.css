@@ -1,0 +1,41 @@
+.header{
+  width: 100%;
+  height: 75px;
+  background-color: var(--main-purple);
+  position: fixed;
+  z-index: 10;
+}
+
+.nav{
+  max-width: 1200px;
+  height: 100%;
+  margin: auto;
+  padding: 0 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fafafa;
+}
+
+.brand{
+  font-size: 1.7em;
+  text-decoration: none;
+  color: #fafafa;
+}
+
+.links{
+  display: flex;
+}
+
+.links li{
+  list-style: none;
+  margin-left: 1em;
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+.link{
+  text-decoration: none;
+  color: #fafafa;
+  font-size: 1.1em;
+}

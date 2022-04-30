@@ -1,0 +1,18 @@
+.readerTitle{
+  font-weight: 500;
+}
+
+.readerDesc{
+  font-size: 1.3em;
+  margin: 3px 0;
+}
+
+.readerText{
+  font-size: 1.4em;
+}
+
+.separator{
+  border: 1px solid #c1c1c1;
+  margin: 1em 0;
+  border-radius: 5px;
+}
