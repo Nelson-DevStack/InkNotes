@@ -1,11 +1,11 @@
 .wrapper{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 1em;
+  gap: 1.5em;
 }
 
 .card{
-  border: 1px solid #b5b5b5;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 5px;
   padding: 1em;
   display: flex;
@@ -45,11 +45,12 @@
 }
 
 .readBtn{
-  background-color: rgb(127, 36, 145);
+  background-color: var(--main-purple);
 }
 
 .editBtn{
   background-color: #ffc107;
+  color: #323232;
   margin: 0 2px;
 }
 

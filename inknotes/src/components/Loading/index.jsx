@@ -6,7 +6,8 @@ const styles = {
   justifyContent: 'center',
   alignItems: 'center',
   title: {
-    fontWeight: 400
+    fontWeight: 400,
+    marginBottom: '1em',
   },
   img: {
     width: '100px',

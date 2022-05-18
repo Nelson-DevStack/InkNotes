@@ -9,6 +9,7 @@ export default function MainGrid(){
   const api = useApi();
   const [notesData, setNotesData] = useState([]);
   const [failedLoading, setFailedLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -21,6 +22,7 @@ export default function MainGrid(){
       }
     }
     fetchData();
+    setLoading(false);
   }, [notesData.length]);
 
   const deleteNote = async (noteId) => {
@@ -32,12 +34,13 @@ export default function MainGrid(){
   }
 
   if(failedLoading) return <FailedFetch />
-  if(!notesData) return <Loading />
-  if(notesData.length === 0){
-    return(
-      <h1>There is no Notes. Click the "+" button to create a Note.</h1>
-    )
-  }
+  if(loading) return <Loading />
+
+  // if(notesData.length === 0){
+  //   return(
+  //     <h1>There is no Notes. Click the "+" button to create a Note.</h1>
+  //   )
+  // }
 
   return(
     <div className={style.wrapper}>

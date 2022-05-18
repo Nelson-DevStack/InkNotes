@@ -82,7 +82,7 @@ export default function Edit(){
       <label className={form.inputLabel}>Note Text</label>
       <textarea 
         rows="10"
-        className={form.inputStyle}
+        className={form.inputTextArea}
         value={text}
         onChange={(e)=> setText(e.target.value)}
       />

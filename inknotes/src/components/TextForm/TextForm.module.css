@@ -1,7 +1,6 @@
 .form{
   display: flex;
   flex-direction: column;
-
 }
 
 .formTitle{
@@ -10,9 +9,11 @@
 }
 
 .separator{
-  border: 1px solid #c1c1c1;
-  margin: 1em 0 2em 0;
+  border: 1px solid var(--main-purple);
+  margin: 1em auto 2em auto;
   border-radius: 5px;
+  max-width: 90%;
+  width: 100%;
 }
 
 .inputLabel{
@@ -27,9 +28,22 @@
   font-size: 1.2em;
   padding: 10px;
   margin-bottom: 20px;
-  border: 1px solid #b6b6b6;
-  border-radius: 3px;
+  border: none;
+  border-bottom: 1px solid #d5d5d5;
   font-family: var(--sans-serif);
+  outline: none;
+}
+
+.inputTextArea{
+  font-size: 1.2em;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border: 1px solid #d5d5d5;
+  border-radius: 5px;
+  font-family: var(--sans-serif);
+  outline: none;
+ 
 }
 
 .formFooter{
