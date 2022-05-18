@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import form from './TextForm.module.css';
+import form from '../../styles/TextForm.module.css';
 
 export default function TextForm({ formTitle, action }){
   const navigate = useNavigate();

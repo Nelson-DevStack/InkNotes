@@ -1,50 +1,33 @@
-import style from './MainGrid.module.css';
 import { Link } from 'react-router-dom';
 import { useApi } from '../../hooks/useApi';
-import { useEffect, useState } from 'react';
-import FailedFetch from '../FailedFetch/index';
+import { useFetch } from '../../hooks/useFetch';
+import { useSWRConfig } from 'swr';
+import style from './MainGrid.module.css';
 import Loading from '../Loading/index';
 
 export default function MainGrid(){
   const api = useApi();
-  const [notesData, setNotesData] = useState([]);
-  const [failedLoading, setFailedLoading] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const url = process.env.REACT_APP_API;
 
-  useEffect(()=>{
-    const fetchData = async () => {
-      try{
-        const data = await api.getAll();
-        setNotesData(data);
-      }catch(err){
-        console.log(err);
-        setFailedLoading(true);
-      }
-    }
-    fetchData();
-    setLoading(false);
-  }, [notesData.length]);
+  const { data, error } = useFetch(`${url}/notes`);
+  const { mutate } = useSWRConfig();
 
+  if(error) return <h1>Failed to Fetch Data...</h1>;
+  if(!data) return <Loading />;
+  if(data.length === 0){
+    return(
+      <h1>There is no Notes. Click the "+" button to create a Note.</h1>
+    )
+  };
+    
   const deleteNote = async (noteId) => {
     await api.delete(noteId);
-    const newData = notesData.filter((element, index) => {
-      return element._id !== noteId;
-    })
-    setNotesData(newData);
-  }
-
-  if(failedLoading) return <FailedFetch />
-  if(loading) return <Loading />
-
-  // if(notesData.length === 0){
-  //   return(
-  //     <h1>There is no Notes. Click the "+" button to create a Note.</h1>
-  //   )
-  // }
+    mutate(`${url}/notes`);
+  };  
 
   return(
     <div className={style.wrapper}>
-      {notesData.map((note)=>(
+      {data.map((note)=>(
         <div className={style.card} key={note._id}>
           <h1 className={style.cardTitle}>
             {note.title}

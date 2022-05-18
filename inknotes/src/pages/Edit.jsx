@@ -1,7 +1,8 @@
-import form from '../components/TextForm/TextForm.module.css';
+import form from '../styles/TextForm.module.css';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useApi } from '../hooks/useApi';
+import { useFetch } from '../hooks/useFetch';
 
 export default function Edit(){
   const api = useApi();
@@ -9,37 +10,30 @@ export default function Edit(){
   const params = useParams();
   const noteID = params.noteId;
 
-  const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [text, setText] = useState('');
   const [message, setMessage] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
 
+  const { data, error } = useFetch(`/note/${noteID}`);
+
   useEffect(()=>{
-    const getData = async () => {
-      try{
-        const data = await api.getById(noteID);
-        setTitle(data.title);
-        setDescription(data.description);
-        setText(data.text);
-        setLoading(false);
-      }catch(err){
-        console.log(err);
-      }
-    }
-    getData();
-  }, [noteID]);
+    if(data){
+      setTitle(data.title);
+      setDescription(data.description);
+      setText(data.text);
+    };
+  }, [data]);
+
+  if(error) return <h1>Failed to Fetch...</h1>;
+  if(!data) return <h1>Loading ...</h1>;
 
   const updateNote = async () =>{
     await api.update(noteID, title, description, text);
   }
 
   const cancelBtn = () => navigate('/');
-
-  if(loading){
-    return <h1>Loading ...</h1>
-  }
 
   return(
     <div className={form.form}>

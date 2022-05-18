@@ -1,9 +1,16 @@
-import axios from "axios"
+import axios from "axios";
+
 const api = axios.create({
   baseURL: process.env.REACT_APP_API,
-})
+});
 
 export const useApi = () => ({
+
+  get: async (url) => {
+    const res = await api.get(url);
+    const data = await res.data;
+    return data;
+  },
   
   getAll: async () => {
     const res = await api.get('/notes');
@@ -41,4 +48,4 @@ export const useApi = () => ({
     return data;
   },
 
-})
+});

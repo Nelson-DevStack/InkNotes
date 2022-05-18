@@ -1,4 +1,4 @@
-import form from '../components/TextForm/TextForm.module.css';
+import form from '../styles/TextForm.module.css';
 import { useApi } from "../hooks/useApi";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,6 @@ export default function Create(){
   const api = useApi();
   const navigate = useNavigate();
   const cancelBtn = () => navigate('/');  
-
 
   const saveNote = async() => {
     if(title.length === 0){
