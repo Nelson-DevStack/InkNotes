@@ -4,6 +4,8 @@ import { useFetch } from '../../hooks/useFetch';
 import { useSWRConfig } from 'swr';
 import style from './MainGrid.module.css';
 import Loading from '../Loading/index';
+import FailedFetch from '../FailedFetch';
+import EmptyNotes from '../EmptyNotes';
 
 export default function MainGrid(){
   const api = useApi();
@@ -12,13 +14,9 @@ export default function MainGrid(){
   const { data, error } = useFetch(`${url}/notes`);
   const { mutate } = useSWRConfig();
 
-  if(error) return <h1>Failed to Fetch Data...</h1>;
+  if(error) return <FailedFetch />;
   if(!data) return <Loading />;
-  if(data.length === 0){
-    return(
-      <h1>There is no Notes. Click the "+" button to create a Note.</h1>
-    )
-  };
+  if(data.length === 0) return <EmptyNotes />;
     
   const deleteNote = async (noteId) => {
     await api.delete(noteId);

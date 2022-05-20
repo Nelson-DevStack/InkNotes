@@ -15,6 +15,15 @@ export default function Navbar(){
         <ul className={styles.links}>
           <li>
             <NavLink
+              to="/"
+              className={styles.link}
+            >
+              Home
+            </NavLink>
+          </li>
+          
+          <li>
+            <NavLink
               to="/create"
               className={styles.link}
             >

@@ -1,4 +1,5 @@
 import form from '../styles/TextForm.module.css';
+import FailedFetch from '../components/FailedFetch';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useApi } from '../hooks/useApi';
@@ -13,7 +14,8 @@ export default function Edit(){
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [text, setText] = useState('');
-  const [message, setMessage] = useState(false);
+
+  const [failMessage, setFailMessage] = useState({value: false, text: ''});
   const [successMsg, setSuccessMsg] = useState(false);
 
   const { data, error } = useFetch(`/note/${noteID}`);
@@ -26,11 +28,27 @@ export default function Edit(){
     };
   }, [data]);
 
-  if(error) return <h1>Failed to Fetch...</h1>;
+  if(error) return <FailedFetch /> ;
   if(!data) return <h1>Loading ...</h1>;
 
   const updateNote = async () =>{
-    await api.update(noteID, title, description, text);
+    if(title.length === 0){
+      setFailMessage({
+        value: true,
+        text: 'Please insert a title in the Note',
+      })
+      return
+    };
+
+    try{
+      await api.update(noteID, title, description, text);
+      setSuccessMsg(true);
+    }catch(err){
+      setFailMessage({
+        value: true,
+        text: 'Failed to save: Internal server error'
+      });
+    }
   }
 
   const cancelBtn = () => navigate('/');
@@ -44,10 +62,10 @@ export default function Edit(){
       <hr className={form.separator} />
 
       <div
-        className={`${message ? `${form.alert} ${form.lightDanger}` : form.alertHidden}`}
-        onTransitionEnd={()=> setMessage(false)}
+        className={`${failMessage.value ? `${form.alert} ${form.lightDanger}` : form.alertHidden}`}
+        onTransitionEnd={()=> setFailMessage({value: false, text: failMessage.text})}
       >
-        Insert a <strong>title</strong> in the Note
+        {failMessage.text}
       </div>
 
       <div
@@ -84,14 +102,7 @@ export default function Edit(){
       <div className={form.formFooter}>
         <button 
           className={`${form.button} ${form.yellow}`}
-          onClick={() => {
-            if(title.length === 0){
-              setMessage(true)
-              return
-            }
-            updateNote()
-            setSuccessMsg(true)
-          }}
+          onClick={updateNote}
         >
           Edit
         </button>

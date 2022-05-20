@@ -8,7 +8,7 @@ export default function Create(){
   const [description, setDescription] = useState('');
   const [text, setText] = useState('');
 
-  const [message, setMessage] = useState(false);
+  const [failMessage, setFailMessage] = useState({value: false, text: ''});
   const [successMsg, setSuccessMsg] = useState(false);
 
   const api = useApi();
@@ -17,16 +17,20 @@ export default function Create(){
 
   const saveNote = async() => {
     if(title.length === 0){
-      setMessage(true);
+      setFailMessage({value: true, text: 'Please insert a title in the Note'});
       return
     }
 
     try{
       await api.create(title, description, text);
+      setSuccessMsg(true);
     }catch(err){
       console.log(err);
+      setFailMessage({
+        value: true,
+        text: 'Failed to save: Internal server error'
+      });
     }
-    setSuccessMsg(true);
   }
 
   return(
@@ -38,10 +42,10 @@ export default function Create(){
       <hr className={form.separator} /> 
 
       <div
-        className={`${message ? `${form.alert} ${form.lightDanger}` : form.alertHidden}`}
-        onTransitionEnd={()=> setMessage(false)}
+        className={`${failMessage.value ? `${form.alert} ${form.lightDanger}` : form.alertHidden}`}
+        onTransitionEnd={()=> setFailMessage({value: false, text: failMessage.text})}
       >
-        Insert a <strong>title</strong> in the Note
+        {failMessage.text}
       </div>
 
       <div
